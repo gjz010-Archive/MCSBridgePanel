@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var SPIGOT_PATH="spigot-1.8.8.jar"
 //Production
-var JAVA_PATH="spigot/jre1.8.0_73/bin/java"
+var JAVA_PATH="/spigot/jre1.8.0_73/bin/java"
 var SPIGOT_DIR="/spigot/";
 //Debug
 //var JAVA_PATH="java"

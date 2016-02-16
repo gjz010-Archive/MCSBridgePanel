@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 var SPIGOT_PATH="spigot-1.8.8.jar"
-var JAVA_PATH="/spigot/jre1.8.0_73/bin/java"
+//Production
+var JAVA_PATH="spigot/jre1.8.0_73/bin/java"
 var SPIGOT_DIR="/spigot/";
+//Debug
+//var JAVA_PATH="java"
+//var SPIGOT_DIR="/home/gjz010/develop/bukkitdev/";
 var TARGET_HOST = "127.0.0.1";
 var TARGET_PORT = 25565;
 
@@ -10,6 +14,7 @@ var TARGET_PORT = 25565;
 var app = require('express')();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var ss=require('socket.io-stream');
 var net = require('net');
 var Tail = require('tail').Tail;
 var fs = require('fs');
@@ -19,6 +24,10 @@ app.get('/',
 function(req, res) {
     //res.send('<h1>Spigot Websocket Bridge 兼容层正在平和地运行。</h1>');
     res.sendfile('console.html');
+});
+app.get('/local.js',
+function(req, res) {
+    res.sendfile('local.js');
 });
 
 http.listen((process.env.PORT || 8080),
@@ -67,28 +76,31 @@ function(socket) {
         console.log("websocket disconnected!");
     });
 socket.on('stoptunnel',function(id){
-if(socket.currentTunnels[id]!==undefined) socket.currentTunnels[id].end();
+//if(socket.currentTunnels[id]!==undefined) socket.currentTunnels[id].end();
 });
-    socket.on('tunnel',
-    function(id) {
+    ss(socket).on('tunnel',
+    function(stream,id) {
         var target = new net.Socket();
         target.connect({
             host: TARGET_HOST,
             port: TARGET_PORT
          },function() {
         console.log('New tunnel built!');
-        socket.currentTunnels[id]=target;
-         socket.emit('tunnelready',id);
+        //socket.currentTunnels[id]=target;
+	stream.pipe(target);
+	var backtunnel=ss.createStream();
+       target.pipe(backtunnel);
+         ss(socket).emit('tunnelready',backtunnel,id);
           });
-    target.on('data',
+    /*target.on('data',
     function(data) {
         socket.emit("pipeddata",{"id":id,"data":data});
-    });
+    });*/
     target.on('end',
     function() {
         console.log('tunnel disconnected');
         socket.emit('stoptunnel',id);
-        delete socket.currentTunnels[id];
+        //delete socket.currentTunnels[id];
     });
     target.on("error",
     function(e) {
@@ -98,11 +110,12 @@ if(socket.currentTunnels[id]!==undefined) socket.currentTunnels[id].end();
 
 
     //socket.emit("data","Minecraft!")
+/*
     socket.on('pipeddata',
     function(obj) {
         //console.log(obj);
         if(socket.currentTunnels[obj["id"]]!==undefined) socket.currentTunnels[obj["id"]].write(obj["data"]);
-    });
+    });*/
 socket.on("command",function(cmd){
 console.log("web:"+cmd);
 io.emit("writelog",cmd);

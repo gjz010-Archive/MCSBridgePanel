@@ -64,6 +64,7 @@ spigot.on('exit', function(code) {
 io.on('connection',
 function(socket) {
     console.log('a user connected');
+	io.emit("writelog","a user connected");
 //////////////////////////////////
     socket.on('pings',
     function() {
@@ -80,12 +81,13 @@ socket.on('stoptunnel',function(id){
 });
     ss(socket).on('tunnel',
     function(stream,id) {
+io.emit("writelog","someone want to tunnel...");
         var target = new net.Socket();
         target.connect({
             host: TARGET_HOST,
             port: TARGET_PORT
          },function() {
-        console.log('New tunnel built!');
+        console.log('New tunnel built!');io.emit("writelog","New tunnel built!");
         //socket.currentTunnels[id]=target;
 	stream.pipe(target);
 	var backtunnel=ss.createStream();

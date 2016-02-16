@@ -66,6 +66,6 @@ ss(ws).emit("tunnel",outnet,id);
 	//ws.disconnect();
     });
     sock.on('error',function(err){
-        console.log("Could not connect to service " + e);
+        console.log("Could not connect to service " + err);
 	});
 }).listen(PORT,HOST);

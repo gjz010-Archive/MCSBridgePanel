@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 var SPIGOT_PATH="spigot-1.8.8.jar"
+var JAVA_PATH="/spigot/jre1.8.0_73/bin/java"
 var SPIGOT_DIR="/spigot/";
 var TARGET_HOST = "127.0.0.1";
 var TARGET_PORT = 25565;
@@ -40,7 +41,7 @@ spigot_log.on("error", function(error) {
 });
 var spigot={dead:true};
 function bootserver(){
-spigot=spawn('java',['-jar',SPIGOT_PATH],{cwd:SPIGOT_DIR});
+spigot=spawn(JAVA_PATH,['-jar',SPIGOT_PATH],{cwd:SPIGOT_DIR});
 spigot.dead=false;
 spigot.on('exit', function(code) {
   console.log("Child exited with code "+code);

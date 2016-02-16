@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Spigot WSBridge Console</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; padding-bottom: 60px; }
+      #frm { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      #frm input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      #frm button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+<script src="/socket.io/socket.io.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+$("document").ready(function(){
+  var socket = io();
+  $('#send').click(function(){
+     console.log(socket);
+    socket.emit('command', $('#m').val());
+    $('#m').val('');
+  });
+  socket.on('writelog', function(msg){
+    $('#messages').append($('<li>').text(msg));
+  });
+});
+$(window).on('beforeunload', function(){
+    socket.close();
+});
+$(function(){
+document.onkeydown = function(e){
+    var ev = document.all ? window.event : e;
+    if(ev.keyCode==13) {
+           $('#send').click();//处理事件
+
+     }
+}
+});
+</script>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+<div id="frm">
+      <input id="m" autocomplete="off" /><button id="send">Send</button>
+</div>
+  </body>
+</html>

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 var SPIGOT_PATH="spigot-1.8.8.jar"
-var SPIGOT_DIR="bukkitdev/";
-var TARGET_HOST = process.env.OPENSHIFT_DIY_IP;
+var SPIGOT_DIR="/spigot/";
+var TARGET_HOST = "127.0.0.1";
 var TARGET_PORT = 25565;
 
 
@@ -20,7 +20,7 @@ function(req, res) {
     res.sendfile('console.html');
 });
 
-http.listen((process.env.PORT || 8080), process.env.OPENSHIFT_DIY_IP,
+http.listen((process.env.PORT || 8080),
 function() {
     console.log('listening on IP:PORT');
 });

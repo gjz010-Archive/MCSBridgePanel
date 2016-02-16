@@ -25,7 +25,7 @@ function() {
     console.log('listening on IP:PORT');
 });
 //////////////////////
-copier=spawn("cp",["-r","./spigot/*","/spigot/"]);
+//copier=spawn("cp",["-r","./spigot/*","/spigot/"]);
 //////////////////////
 //////////////////////////////
 var spigot_log=new Tail(SPIGOT_DIR+"logs/latest.log");

@@ -3,12 +3,12 @@
 var net=require('net');
 var HOST='127.0.0.1';
 var PORT=18089;
-//var WEBSOCKET_ADDR="http://spigotwsbridge.applinzi.com/"; //大中华万岁
+var WEBSOCKET_ADDR="http://spigotwsbridge.applinzi.com/"; //大中华万岁
 //var WEBSOCKET_ADDR="http://spigotwsbridge.dotcloudapp.com/"; //美国代理1
 //var WEBSOCKET_ADDR='http://rocky-garden-3559.herokuapp.com/'; //美国代理2
 //var WEBSOCKET_ADDR="http://infinite-citadel-5348.herokuapp.com/"; //欧洲代理
 //var WEBSOCKET_ADDR="http://spigotwsbridge-gjz010no1.rhcloud.com/" //服务器地址
-var WEBSOCKET_ADDR='http://127.0.0.1:8080/'; //Debug
+//var WEBSOCKET_ADDR='http://127.0.0.1:8080/'; //Debug
 var counter=0;
 var pingproc;
 var local_socks=[];
